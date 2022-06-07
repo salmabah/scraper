@@ -2,24 +2,32 @@ import scrapy
 import re
 from scrapy_splash import SplashRequest
 
-script="""
-function main(splash, args)
-      local url = splash.args.url
-      splash:go(url)
-      splash:wait(0.5)
-      splash:evaljs('$("a[data-hook='cr-translate-these-reviews-link']" ).click();')
-      return splash:html()
-    end
-"""
+# script="""
+# function main(splash, args)
+#   local url = splash.args.url
+#   assert(splash:autoload("https://code.jquery.com/jquery-3.1.1.min.js"))
+#   assert(splash:go(url))
+#   assert(splash:runjs('document.getElementById("sp-cc-accept").click()'))
+#   splash:wait(2)
+#   assert(splash:runjs([[
+#       var elm = document.querySelector("#customer_review-RSIXSN7OS8139")
+#       elm.click()
+#     ]]))
+#   assert(splash:wait(1))
+#   return {
+#             html = splash:html()
+#         }
+# end
+# """
 
 class ReviewsSpider(scrapy.Spider):
     name = 'reviews'
     allowed_domains = ['amazon.fr']
-    start_urls = ['https://www.amazon.fr/product-reviews/B09M4BFZK7/']
-
-    def start_requests(self):
-        for url in self.start_urls:
-            yield SplashRequest(url, callback=self.parse, args={'lua_source': script})
+    start_urls = ['https://www.amazon.fr/product-reviews/B07ZHJFH4W/']
+    id = 0
+    # def start_requests(self):
+    #     for url in self.start_urls:
+    #         yield SplashRequest(url, callback=self.parse, args={'lua_source': script})
 
     def parse(self, response):
         m=['janvier',
@@ -44,7 +52,9 @@ class ReviewsSpider(scrapy.Spider):
 
         ## Pour chaque commentaire :
         Date=""
+        
         for elm in reviews:
+            ReviewsSpider.id += 1
             Date = elm.xpath('.//*[@data-hook="review-date"]/text()').get()
             li=re.sub('Commenté en ','',Date)
             if li == Date:
@@ -65,8 +75,9 @@ class ReviewsSpider(scrapy.Spider):
             if body == None:
                 body = elm.xpath('.//*[@data-hook="review-body"]/span/text()').get()
             review = {
+            'id': ReviewsSpider.id,
             #asin
-            'asin' : 'B09M4BFZK7',
+            'asin' : 'B07ZHJFH4W',
             #Nombre d'étoiles :
             'rv_stars_rating' : stars,
             #Titre
