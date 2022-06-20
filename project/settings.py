@@ -28,6 +28,8 @@ SPIDER_MIDDLEWARES = {
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
+SPIDER_MIDDLEWARES = { 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware': None }
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'project (+http://www.amazone.fr)'

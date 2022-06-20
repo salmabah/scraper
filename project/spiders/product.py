@@ -6,7 +6,7 @@ from scrapy_splash import SplashRequest
 class ProductSpider(scrapy.Spider):
     name = 'product'
     allowed_domains = ['amazon.fr']
-    start_urls = ['https://www.amazon.fr/dp/B09M4BFZK7']
+    start_urls = ['https://www.amazon.fr/dp/B07ZHJFH4W']
 
     def start_requests(self):
         for url in self.start_urls:

@@ -1,12 +1,14 @@
 # Documentation
 
-## Set up the envirement in Windows
+## install requirements
 
-# Docker
+- Python 3.7 or higher.
+
+## Docker
 
 - install Docker from the website www.docker.com
 
-# installation de splash sur docker
+## installation de splash sur docker
 
 - Pull the image with :
   $ docker pull scrapinghub/splash
@@ -14,13 +16,7 @@
   $ docker run -it -p 8050:8050 --rm scrapinghub/splash
 - Start splash service in docker container
 
-### set up the virtual envirement :
-
-- move to the folder where the project should be in, then run these comands
-  > > python -m venv venv
-  > > venv\Scripts\Activate
-
-### install external dependencies :
+### install scrapy :
 
 pip install scrapy
 
@@ -30,13 +26,13 @@ python -m pip install scrapy
 start new project
 scrapy startproject projet
 
-# Install scrapy-splash
+## Install scrapy-splash
 
 pip install scrapy-splash
 
-# Linking splash with scrapy
+## Linking splash with scrapy
 
-<!-- modifier le fichier settings.py -->
+### modifier le fichier "settings.py"
 
 - 1- add the splash server to settings.py
   SPLASH_URL = 'http://localhost:8050/'
@@ -52,20 +48,31 @@ SPIDER_MIDDLEWARES = {
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
--
-
 ## Lancer le shell interactive
 
-shell scrapy URL
+shell scrapy
+
+## récupérer une réponse à partir de l'URL donnée et mettre à jour tous les objets associés en conséquence
+
+fetch('http://localhost:8050/render.html?url=URL')
+exemple : fetch('http://localhost:8050/render.html?url=https://www.amazon.fr/product-reviews/B09D8L99FM/')
 
 ## Créer un spider
 
 scrapy genspider reviews amazon.fr/
 
+## exécuter un spider et enregistrer la sortie dans un fichier csv
+
 scrapy crawl reviews -o test.csv
 
-<!-- send args to spider -->
+scrapy crawl product -o product.csv
+
+## exécuter un spider avec l'envoie d'un argument au spider et enregistrer la sortie dans un fichier csv
+
+scrapy crawl reviews -o ex1_reviews.csv -a asin="B093DY36FF"
+
+<!-- scrapy crawl reviews -o test.csv -a asin="B08Z23JP4W" -->
+
+### send args to spider
 
 scrapy crawl scrapetv -a category=smartphones
-
-fetch('http://localhost:8050/render.html?url=https://www.amazon.fr/product-reviews/B09D8L99FM/')
