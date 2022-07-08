@@ -48,9 +48,11 @@ SPIDER_MIDDLEWARES = {
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 HTTPCACHE_STORAGE = 'scrapy_splash.SplashAwareFSCacheStorage'
 
+USER_AGENT = 'project (+http://www.amazone.fr)'
+
 ## Lancer le shell interactive
 
-shell scrapy
+scrapy shell
 
 ## récupérer une réponse à partir de l'URL donnée et mettre à jour tous les objets associés en conséquence
 
